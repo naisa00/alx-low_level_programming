@@ -1,30 +1,30 @@
+ #include <stdlib.h>
+#include <string.h>
 #include "lists.h"
 
 /**
- *add_node - program that adds anode to the start of the list
- * @head : address of a pointer to the head node
- * @str : str field of the node
+ * add_node - adds a new node at the beginning of a linked list
+ * @head: double pointer to the list_t list
+ * @str: new string to add in the node
  *
- * Return: size of the list printed
+ * Return: the address of the new element, or NULL if it fails
  */
 list_t *add_node(list_t **head, const char *str)
 {
-        list_t *new_h = malloc(sizeof (list_t));
+ list_t *new;
+ unsigned int len = 0;
 
-        if (!head || !new_h)
-                return (NULL);
-        if(str)
-        {
-              new_h->str = strdup(str);
-              if (!new_h->str)
-              {
-                        free(new_h);
-                        return (NULL);
-                }
-                new_h->len = str_len(new_h->str);
-        }
+ while (str[len])
+ len++;
 
-        new_h->next = *head;
-        *head = new_h;
-        return (new_h);
+ new = malloc(sizeof(list_t));
+ if (!new)
+ return (NULL);
+
+ new->str = strdup(str);
+ new->len = len;
+ new->next = (*head);
+ (*head) = new;
+
+ return (*head);
 }
